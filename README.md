@@ -1,24 +1,23 @@
 # README
+# schema
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+* User
+    id          integer
+    name        string
+    email       string
+    password    string
+    task_id     integer
 
-Things you may want to cover:
+* Task
+    id          integer
+    title       string
+    content     taxt
+    label_id    integer
+    dedline     date
+    status      string
+    priority    integer
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+* Label
+    id          integer
+    title       string
+    content     text
