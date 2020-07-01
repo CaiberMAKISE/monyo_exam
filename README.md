@@ -2,15 +2,12 @@
 # schema
 
 * User
-    id          integer
-
-    name        string
-
-    email       string
-
-    password    string
-
-    task_id     integer
+    | column_name | data_type |
+    | id | integer |
+    | name | string |
+    | email | string |
+    | password | string |
+    |task_id| integer |
 
 * Task
     id          integer
