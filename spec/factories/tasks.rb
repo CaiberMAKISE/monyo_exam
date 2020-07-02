@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :task do
-    title { 'default_test_title' }
-    content { 'default_test_content' }
+    title { 'test_title' }
+    content { 'test_content' }
   end
 end
