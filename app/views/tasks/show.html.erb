@@ -1,4 +1,6 @@
 <h1>タスク詳細画面</h1>
 <p>タイトル: <%= @task.title %></p>
 <p>内容: <%= @task.content %></p>
+<p>期限: <%= @task.dead_line %></p>
+<p>状態: <%= @task.status %></p>
 <%= link_to 'タスクを編集する', edit_task_path %>

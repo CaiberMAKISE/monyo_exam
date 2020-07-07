@@ -1,13 +1,26 @@
+<%= form_with(model:@task, method: :get, local: true) do |f| %>
+  タイトル検索
+  <span class="title_key">
+    <%= f.text_field :title_key %>
+  </span>
+  <%= f.select :status_key, [['-',nil], ['未着手','未着手'], ['着手中','着手中'], ['完了','完了']] %>
+  <%= f.submit '検索' %>
+<% end %>
+<%= link_to "終了期限でソートする", tasks_path(sort_expired: "true") %>
 <h1>タスク一覧</h1>
 <table>
   <tr>
     <th>タイトル</th>
     <th>内容</th>
+    <th>期限</th>
+    <th>状態</th>
   </tr>
 <% @tasks.each do |t| %>
   <tr>
     <td><%= t.title %></td>
     <td><%= t.content %></td>
+    <td><%= t.dead_line %></td>
+    <td><%= t.status %></td>
     <td><%= link_to 'タスクを確認する', task_path(t.id) %></td>
     <td><%= link_to 'タスクを編集する', edit_task_path(t.id) %></td>
     <td><%= link_to 'タスクを削除する', task_path(t.id), method: :delete,data: { confirm: '本当に削除していいですか？' } %></td>
@@ -16,3 +29,5 @@
 </table>
 <br>
 <%= link_to 'タスクを登録する', new_task_path%>
+<br>
+<%= link_to 'Clear', tasks_path %>

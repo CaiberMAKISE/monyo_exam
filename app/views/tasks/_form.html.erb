@@ -17,6 +17,15 @@
     <%= f.label :content %>
     <%= f.text_field :content %>
   </div>
+  <div class="task_dead_line">
+    <%= f.label :dead_line %>
+    <%= f.date_select :dead_line %>
+  </div>
+  <div class="task_status">
+    <%= f.label :status %>
+    <%= f.select :status,
+    [['未着手','未着手'], ['着手中','着手中'], ['完了','完了']], {selected: '未着手'} %>
+  </div>
   <%= f.submit %>
 <% end %>
 <%= link_to "一覧に戻る", tasks_path %>
