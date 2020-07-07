@@ -18,6 +18,45 @@ RSpec.describe 'タスク管理機能', type: :system do
         expect(first_task).to have_content 'task3'
         expect(second_task).to have_content 'task2'
       end
+      it 'タスクのソートを実行すると終了期限の降順に並んでいる' do
+        task = FactoryBot.create(:task, title: 'task7/2', dead_line: '2020-07-02')
+        task = FactoryBot.create(:task, title: 'task7/3', dead_line: '2020-07-03')
+        task = FactoryBot.create(:task, title: 'task7/1', dead_line: '2020-07-01')
+        visit tasks_path
+        click_link '終了期限でソートする'
+        first_task = all('tbody tr')[1]
+        second_task = all('tbody tr')[2]
+        third_task = all('tbody tr')[3]
+        expect(first_task).to have_content '7/1'
+        expect(second_task).to have_content '7/2'
+        expect(third_task).to have_content '7/3'
+      end
+    end
+    context '検索をした場合' do
+      before do
+        task = FactoryBot.create(:task, title: 'task7/2', dead_line: '2020-07-02')
+        task = FactoryBot.create(:task, title: 'task7/3', dead_line: '2020-07-03')
+        task = FactoryBot.create(:task, title: 'task7/1', dead_line: '2020-07-01')
+      end
+      it "タイトルで検索できる" do
+        visit tasks_path
+        fill_in 'title_key', with: 'task7/1'
+        click_button '検索'
+        expect(page).to have_content 'task7/1'
+      end
+      it "状態で検索できる" do
+        visit tasks_path
+        find("option[value='未着手']").select_option
+        click_button '検索'
+        expect(page).to have_content 'task7/1'
+      end
+      it "タイトルと状態で検索できる" do
+        visit tasks_path
+        fill_in 'title_key', with: 'task7/1'
+        find("option[value='未着手']").select_option
+        click_button '検索'
+        expect(page).to have_content 'task7/1'
+      end
     end
   end
   describe 'タスク登録画面' do
