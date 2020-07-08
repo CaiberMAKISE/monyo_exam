@@ -9,6 +9,7 @@ ja:
         content: 内容
         dead_line: 期限
         status: 状態
+        priority: 優先順位
       user:
         title: タイトル
         name: 名前
