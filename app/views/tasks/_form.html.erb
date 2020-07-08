@@ -26,6 +26,11 @@
     <%= f.select :status,
     [['未着手','未着手'], ['着手中','着手中'], ['完了','完了']], {selected: '未着手'} %>
   </div>
+  <div class="task_priority">
+    <%= f.label :priority %>
+    <%= f.select :priority,
+    [['低','低'], ['中','中'], ['高','高']], {selected: '低'} %>
+  </div>
   <%= f.submit %>
 <% end %>
 <%= link_to "一覧に戻る", tasks_path %>

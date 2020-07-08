@@ -1,17 +1,20 @@
 class TasksController < ApplicationController
+    PER = 12
     before_action :set_task, only: [:show, :edit, :update, :destroy]
     def index
-        if params[:sort_expired]
-            @tasks = Task.all.order(dead_line: :asc)
+        if params[:sort_priority]
+            @tasks = Task.all.order(priority: :desc).order(created_at: :desc).page(params[:page]).per(PER)
+        elsif params[:sort_expired]
+            @tasks = Task.all.order(dead_line: :asc).page(params[:page]).per(PER)
         else
-            @tasks = Task.all.order(created_at: :desc)
+            @tasks = Task.all.order(created_at: :desc).page(params[:page]).per(PER)
         end
         if params[:title_key].present? && params[:status_key].present?
-            @tasks = Task.title_search(params[:title_key]).status_search(params[:status_key])
+            @tasks = Task.title_search(params[:title_key]).status_search(params[:status_key]).page(params[:page]).per(PER)
         elsif params[:title_key].present?
-            @tasks = Task.title_search(params[:title_key])
+            @tasks = Task.title_search(params[:title_key]).page(params[:page]).per(PER)
         elsif params[:status_key].present?
-            @tasks = Task.status_search(params[:status_key])
+            @tasks = Task.status_search(params[:status_key]).page(params[:page]).per(PER)
         else
             render :index
         end
@@ -44,7 +47,7 @@ class TasksController < ApplicationController
     end
     private
     def task_params
-        params.require(:task).permit(:title, :content, :dead_line, :status)
+        params.require(:task).permit(:title, :content, :dead_line, :status, :priority)
     end
     def set_task
         @task = Task.find(params[:id])

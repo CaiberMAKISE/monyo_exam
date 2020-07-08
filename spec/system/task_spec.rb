@@ -24,12 +24,25 @@ RSpec.describe 'タスク管理機能', type: :system do
         task = FactoryBot.create(:task, title: 'task7/1', dead_line: '2020-07-01')
         visit tasks_path
         click_link '終了期限でソートする'
-        first_task = all('tbody tr')[1]
-        second_task = all('tbody tr')[2]
-        third_task = all('tbody tr')[3]
+        first_task = all('table tbody tr')[1]
+        second_task = all('table tbody tr')[2]
+        third_task = all('table tbody tr')[3]
         expect(first_task).to have_content '7/1'
         expect(second_task).to have_content '7/2'
         expect(third_task).to have_content '7/3'
+      end
+      it 'タスクのソートを実行すると優先順位の降順に並んでいる' do
+        task = FactoryBot.create(:task, title: 'task7/2', priority: 0)
+        task = FactoryBot.create(:task, title: 'task7/3', priority: 1)
+        task = FactoryBot.create(:task, title: 'task7/1', priority: 2)
+        visit tasks_path
+        click_link '優先順位でソートする'
+        first_task = all('table tbody tr')[1]
+        second_task = all('table tbody tr')[2]
+        third_task = all('table tbody tr')[3]
+        expect(first_task).to have_content '7/1'
+        expect(second_task).to have_content '7/3'
+        expect(third_task).to have_content '7/2'
       end
     end
     context '検索をした場合' do
