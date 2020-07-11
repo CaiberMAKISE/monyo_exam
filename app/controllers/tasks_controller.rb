@@ -1,29 +1,32 @@
 class TasksController < ApplicationController
     PER = 12
     before_action :set_task, only: [:show, :edit, :update, :destroy]
+    before_action :current_user
+    before_action :authenticate_user, only: [:new, :show, :index]
+    before_action :user_judge, only: [:show]
     def index
         if params[:sort_priority]
-            @tasks = Task.all.order(priority: :desc).order(created_at: :desc).page(params[:page]).per(PER)
+            @tasks = Task.all.where(user_id: current_user.id).order(priority: :desc).order(created_at: :desc).page(params[:page]).per(PER)
         elsif params[:sort_expired]
-            @tasks = Task.all.order(dead_line: :asc).page(params[:page]).per(PER)
+            @tasks = Task.all.where(user_id: current_user.id).order(dead_line: :asc).page(params[:page]).per(PER)
         else
-            @tasks = Task.all.order(created_at: :desc).page(params[:page]).per(PER)
+            @tasks = Task.all.where(user_id: current_user.id).order(created_at: :desc).page(params[:page]).per(PER)
         end
         if params[:title_key].present? && params[:status_key].present?
-            @tasks = Task.title_search(params[:title_key]).status_search(params[:status_key]).page(params[:page]).per(PER)
+            @tasks = Task.title_search(params[:title_key]).where(user_id: current_user.id).status_search(params[:status_key]).page(params[:page]).per(PER)
         elsif params[:title_key].present?
-            @tasks = Task.title_search(params[:title_key]).page(params[:page]).per(PER)
+            @tasks = Task.title_search(params[:title_key]).where(user_id: current_user.id).page(params[:page]).per(PER)
         elsif params[:status_key].present?
-            @tasks = Task.status_search(params[:status_key]).page(params[:page]).per(PER)
+            @tasks = Task.status_search(params[:status_key]).where(user_id: current_user.id).page(params[:page]).per(PER)
         else
-            render :index
+            @tasks = Task.all.where(user_id: current_user.id).order(created_at: :desc).page(params[:page]).per(PER)
         end
     end
     def new
         @task = Task.new
     end
     def create
-        @task = Task.new(task_params)
+        @task = current_user.tasks.build(task_params)
         if @task.save
             redirect_to tasks_path, notice: "タスクを登録しました。"
         else

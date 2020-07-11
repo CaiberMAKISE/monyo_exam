@@ -1,0 +1,26 @@
+<h1><%= @user.name %></h1>
+<p>メールアドレス: <%= @user.email %></p>
+
+<h1>タスク詳細</h1>
+<table>
+    <tr>
+        <th>タイトル</th>
+        <th>内容</th>
+        <th>期限</th>
+        <th>状態</th>
+        <th>優先順位</th>
+    </tr>
+    <% @tasks.each do |t| %>
+    <tr>
+      <td><%= t.title %></td>
+      <td><%= t.content %></td>
+      <td><%= t.dead_line %></td>
+      <td><%= t.status %></td>
+      <td><%= t.priority %></td>
+      <td><%= link_to 'タスクを確認する', task_path(t.id) %></td>
+      <td><%= link_to 'タスクを編集する', edit_task_path(t.id) %></td>
+      <td><%= link_to 'タスクを削除する', task_path(t.id), method: :delete,data: { confirm: '本当に削除していいですか？' } %></td>
+    </tr>
+    <% end %>
+</table>
+<%= link_to '一覧に戻る', admin_users_path %>
