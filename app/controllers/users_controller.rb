@@ -5,11 +5,20 @@ class UsersController < ApplicationController
         @user = User.new
     end
     def create
-        @user = User.new(user_params)
-        if @user.save
-            redirect_to user_path(@user.id)
+        if params[:admin_check]
+            @user = User.new(admin_user_params)
+            if @user.save
+                redirect_to admin_users_path
+            else
+                render :new
+            end
         else
-            render :new
+            @user = User.new(user_params)
+            if @user.save
+                redirect_to user_path(@user.id)
+            else
+                render :new
+            end
         end
     end
     def show

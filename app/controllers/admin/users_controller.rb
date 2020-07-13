@@ -1,6 +1,6 @@
 class Admin::UsersController < ApplicationController
     before_action :current_user
-
+    before_action :admin_judge
     def index
         @users = User.includes(:tasks)
     end
@@ -20,8 +20,10 @@ class Admin::UsersController < ApplicationController
         @tasks = Task.all.where(user_id: @user.id)
     end
     def edit
+        @user = User.find(params[:id])
     end
     def update
+        @user = User.find(params[:id])
         if @user.update(admin_user_params)
             redirect_to admin_users_path, notice: "ユーザーを編集しました"
         else
