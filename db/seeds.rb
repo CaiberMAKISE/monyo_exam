@@ -10,5 +10,5 @@ User.create(
     email: 'test@test.com',
     name: 'test',
     password: '00000000',
-    admin: true
+    admin: 'true'
  )
