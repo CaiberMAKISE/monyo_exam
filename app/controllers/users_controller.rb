@@ -5,25 +5,17 @@ class UsersController < ApplicationController
         @user = User.new
     end
     def create
-        if params[:admin_check]
-            @user = User.new(admin_user_params)
-            if @user.save
-                redirect_to admin_users_path
-            else
-                render :new
-            end
+        @user = User.new(user_params)
+        if @user.save
+            session[:user_id] = @user.id
+            redirect_to user_path(@user.id)
         else
-            @user = User.new(user_params)
-            if @user.save
-                redirect_to user_path(@user.id)
-            else
-                render :new
-            end
+            render :new
         end
     end
     def show
         @user = User.find(params[:id])
-        redirect_to tasks_path unless @user.id == current_user.id
+        redirect_to tasks_path unless @user.id == @current_user.id
     end
     private
     def user_params
