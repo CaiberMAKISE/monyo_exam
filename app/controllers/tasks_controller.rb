@@ -3,7 +3,6 @@ class TasksController < ApplicationController
     before_action :set_task, only: [:show, :edit, :update, :destroy]
     before_action :current_user
     before_action :authenticate_user, only: [:new, :show, :index]
-    before_action :user_judge, only: [:show]
     def index
         if params[:sort_priority]
             @tasks = Task.all.where(user_id: current_user.id).order(priority: :desc).order(created_at: :desc).page(params[:page]).per(PER)
