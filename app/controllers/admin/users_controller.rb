@@ -24,6 +24,7 @@ class Admin::UsersController < ApplicationController
     end
     def update
         @user = User.find(params[:id])
+        binding.pry
         if @user.update(admin_user_params)
             redirect_to admin_users_path, notice: "ユーザーを編集しました"
         else
