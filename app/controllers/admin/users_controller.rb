@@ -35,14 +35,19 @@ class Admin::UsersController < ApplicationController
         @user = User.find(params[:id])
         @user.destroy
         redirect_to admin_users_path
+        if current_user == nil
+            visit new_session_path
+        end
     end
     private
     def admin_user_params
         params.require(:user).permit(:name, :email, :password,:password_confirmation, :admin)
     end
     def admin_judge
-        unless current_user.admin?
-            redirect_to root_path, notice: 'あなたは管理者ではありません'
+        if current_user == true
+            unless current_user.admin?
+                redirect_to root_path, notice: 'あなたは管理者ではありません'
+            end
         end
     end
 end
