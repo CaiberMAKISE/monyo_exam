@@ -1,0 +1,17 @@
+<%= form_with(model: @label, method: :get, local: true) do |f| %>
+<h1>ラベルリスト</h1>
+<table>
+  <tr>
+    <th>ラベル名</th>
+  </tr>
+    <% @labels.each do |t| %>
+        <tr>
+            <td><%= t.content %></td>
+            <td><%= link_to 'ラベル編集', edit_admin_label_path(t.id) %></td>
+            <td><%= link_to 'ラベル削除', admin_label_path(t.id), method: :delete,data: { confirm: '本当に削除していいですか？' } %></td>
+        </tr>
+    <% end %>
+</table>
+<% end %>
+<br>
+<%= link_to 'ラベル登録', new_admin_label_path%>
