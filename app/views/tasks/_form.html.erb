@@ -31,6 +31,9 @@
     <%= f.select :priority,
     [['低','低'], ['中','中'], ['高','高']], {selected: '低'} %>
   </div>
+  <div class="label">
+    <%= f.collection_check_boxes(:label_ids, Label.all, :id, :content) %>
+  </div>
   <%= f.submit %>
 <% end %>
 <%= link_to "一覧に戻る", tasks_path %>

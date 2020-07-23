@@ -6,5 +6,6 @@ Rails.application.routes.draw do
   get '/sessions', to: 'sessions#new'
   namespace :admin do
     resources :users
+    resources :labels
   end
 end
