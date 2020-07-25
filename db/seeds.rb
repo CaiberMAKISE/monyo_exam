@@ -12,3 +12,7 @@ User.create(
     password: '00000000',
     admin: 'true'
  )
+
+ Label.create(
+     content: 'default'
+ )
